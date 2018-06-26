@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Calcatraz</title>
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+</head>
+<body>
+<center>
+	<form>
+		<input id="ipt" type="text">
+		<input type="submit" value="Calculer">	
+	</form>
+</center>
+<div id="infos"></div>
+
+<script>
+
+var infosElt = document.getElementById("infos");
+
+var formElt = document.querySelector("form");
+formElt.addEventListener("submit", function (e) {
+    e.preventDefault();
+	var API_URL = "https://www.calcatraz.com/calculator/api?c="
+	var operation = $('#ipt').val();
+	var encodedOperation = encodeURI(operation);
+	var url = API_URL + encodedOperation;
+	console.log(url);
+
+	$.ajax({
+  	url: 'http://www.calcatraz.com/calculator/api?c=',
+  	data: {
+    	c: encodedOperation
+  	},
+  	type: 'GET',
+  	contentType: 'jsonp',
+  	success: function(data) {
+    	var res = document.createElement("div");
+        	res.textContent = data
+        	console.log(data);
+        	res.style.fontSize = "20px";
+        	infosElt.appendChild(res);
+  	},
+ 	 error: function(request, error, exception) {
+    	console.log(error + '---' + exception + '---' + request);
+    	console.log(request);
+  	
+	}
+});
+
+});
+
+</script>
+</body>
+</html>
